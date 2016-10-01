@@ -1,0 +1,377 @@
+/*
+ * To change this license header, choose License Headers in Project Properties.
+ * To change this template file, choose Tools | Templates
+ * and open the template in the editor.
+ */
+package client;
+
+import java.awt.Dimension;
+import java.awt.Toolkit;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+import java.util.Vector;
+import java.util.logging.Level;
+import java.util.logging.Logger;
+import javax.swing.JOptionPane;
+import javax.swing.Timer;
+import static javax.swing.WindowConstants.DO_NOTHING_ON_CLOSE;
+import javax.swing.table.DefaultTableModel;
+
+/**
+ *
+ * @author Bishwajit
+ */
+public class ShowListFrom extends javax.swing.JFrame {
+
+    /**
+     * Creates new form showListFrom
+     */
+    private HomePage.PlayerInfo myPlayerInfo;
+    private DefaultTableModel myModel;
+    private boolean validRows[];
+    public Timer myTimer;
+    public int playerID;
+    public PlayGround objectPlayGround;
+    //private ClientGridSubmit objectGridSubmit;
+
+    public ShowListFrom(HomePage.PlayerInfo player) {
+        initComponents();
+        playerID = 0;
+        playcnt = 0;
+        validRows = new boolean[1000];
+        for (int i = 0; i < 1000; i++) {
+            validRows[i] = false;
+        }
+        this.myPlayerInfo = player;
+        this.setTitle(myPlayerInfo.playerName);
+        myModel = (DefaultTableModel) jTable1.getModel();
+        showListOfPlayer();
+        myTimer = new Timer(1000, new ActionListener() {
+
+            @Override
+            public void actionPerformed(ActionEvent ae) {
+                if (myPlayerInfo.isPlaying == false) {
+                    showListOfPlayer();
+                } else {
+                    ;
+                }
+            }
+        });
+        myTimer.setRepeats(true);
+        myTimer.start();
+    }
+    private int playcnt;
+    
+    /*
+    public void myIsHitMessage(int cellN){
+        objectGridSubmit.myIsHitMessage(cellN);
+    }
+    
+    public void opIsHitMessage(boolean isHit){
+        objectGridSubmit.opIsHitMessage(isHit);
+    }
+    
+    public void winMessage(){
+        objectGridSubmit.winMessage();
+    }
+    */
+
+    private void refreshListOfPlayer() {
+        int totalRows = jTable1.getRowCount();
+        for (int i = 0; i < totalRows; i++) {
+            jTable1.setValueAt(null, i, 0);
+            jTable1.setValueAt(null, i, 1);
+            jTable1.setValueAt(null, i, 2);
+            jTable1.setValueAt(null, i, 3);
+        }
+    }
+    
+    
+    /*public void setShowTextAreaFromShowList(String newMessage){
+        objectGridSubmit.setShowTextAreaFromGridSubmit(newMessage);
+    }
+    */
+
+    public void showListOfPlayer() {
+        int cur = 0;
+        int totalRows = jTable1.getRowCount();
+        System.out.println("here i'm");
+        try {
+
+            myPlayerInfo.output.println("Alist");
+            Thread.sleep(30);
+            refreshListOfPlayer();
+            for (int i = 0; i < 1000; i++) {
+                validRows[i] = false;
+            }
+            //System.out.println(myPlayerInfo.playerName + " " + myPlayerInfo.playerIpAddress + " " + myPlayerInfo.playerPortAddress);
+            for (HomePage.PlayerData it : myPlayerInfo.availablePlayerList) {
+                if (it.playerName.equals(myPlayerInfo.playerName)
+                        && it.playerIpAddress.equals(myPlayerInfo.playerIpAddress)
+                        && it.playerPortAddress == myPlayerInfo.playerPortAddress) {
+                    continue;
+                }
+                validRows[cur] = true;
+                if (cur < totalRows) {
+                    jTable1.setValueAt(cur + 1, cur, 0);
+                    jTable1.setValueAt(it.playerName, cur, 1);
+                    
+                    jTable1.setValueAt(it.playerIpAddress, cur, 2);
+                    jTable1.setValueAt(it.playerPortAddress, cur, 3);
+                    
+                } else {
+                    myModel.addRow(new Object[]{cur + 1, it.playerName, it.playerIpAddress, it.playerPortAddress});
+                }
+                cur++;
+            }
+            totalRows = jTable1.getRowCount();
+            for (int i = Math.max(cur, 20); i < totalRows; i++) {
+                myModel.removeRow(i);
+            }
+            //System.out.println("i'm out " + playcnt);
+        } catch (InterruptedException ex) {
+            Logger.getLogger(ShowListFrom.class.getName()).log(Level.SEVERE, null, ex);
+        }
+    }
+
+    public boolean setRequestToPlay(String opponentName) {
+        int ret = JOptionPane.showConfirmDialog(this, opponentName + " invited you for a match. Accept?");
+        System.out.println("return in confirmation " + ret);
+        if (ret == 0) {
+            return true;
+        }
+        return false;
+    }
+
+    /**
+     * This method is called from within the constructor to initialize the form.
+     * WARNING: Do NOT modify this code. The content of this method is always
+     * regenerated by the Form Editor.
+     */
+    @SuppressWarnings("unchecked")
+    // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
+    private void initComponents() {
+
+        jTabbedPane1 = new javax.swing.JTabbedPane();
+        jScrollPane2 = new javax.swing.JScrollPane();
+        jTable1 = new javax.swing.JTable();
+        playButton = new javax.swing.JButton();
+
+        setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
+        addWindowListener(new java.awt.event.WindowAdapter() {
+            public void windowClosing(java.awt.event.WindowEvent evt) {
+                formWindowClosing(evt);
+            }
+        });
+
+        jTable1.setBackground(new java.awt.Color(255, 0, 0));
+        jTable1.setModel(new javax.swing.table.DefaultTableModel(
+            new Object [][] {
+                {null, null, null, null},
+                {null, null, null, null},
+                {null, null, null, null},
+                {null, null, null, null},
+                {null, null, null, null},
+                {null, null, null, null},
+                {null, null, null, null},
+                {null, null, null, null},
+                {null, null, null, null},
+                {null, null, null, null},
+                {null, null, null, null},
+                {null, null, null, null},
+                {null, null, null, null},
+                {null, null, null, null},
+                {null, null, null, null},
+                {null, null, null, null},
+                {null, null, null, null},
+                {null, null, null, null},
+                {null, null, null, null},
+                {null, null, null, null}
+            },
+            new String [] {
+                "#", "PLAYER", "IP ADDRESS", "PORT ADRESS"
+            }
+        ) {
+            Class[] types = new Class [] {
+                java.lang.String.class, java.lang.String.class, java.lang.Object.class, java.lang.Object.class
+            };
+            boolean[] canEdit = new boolean [] {
+                false, false, false, false
+            };
+
+            public Class getColumnClass(int columnIndex) {
+                return types [columnIndex];
+            }
+
+            public boolean isCellEditable(int rowIndex, int columnIndex) {
+                return canEdit [columnIndex];
+            }
+        });
+        jTable1.setShowHorizontalLines(false);
+        jTable1.setShowVerticalLines(false);
+        jScrollPane2.setViewportView(jTable1);
+        if (jTable1.getColumnModel().getColumnCount() > 0) {
+            jTable1.getColumnModel().getColumn(0).setMinWidth(10);
+            jTable1.getColumnModel().getColumn(0).setPreferredWidth(50);
+            jTable1.getColumnModel().getColumn(0).setMaxWidth(50);
+        }
+
+        jTabbedPane1.addTab("Players", jScrollPane2);
+
+        playButton.setText("Play");
+        playButton.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                playButtonActionPerformed(evt);
+            }
+        });
+
+        javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
+        getContentPane().setLayout(layout);
+        layout.setHorizontalGroup(
+            layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addComponent(jTabbedPane1, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, 682, Short.MAX_VALUE)
+            .addGroup(layout.createSequentialGroup()
+                .addGap(306, 306, 306)
+                .addComponent(playButton)
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+        );
+        layout.setVerticalGroup(
+            layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(layout.createSequentialGroup()
+                .addComponent(jTabbedPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 274, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(playButton)
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+        );
+
+        pack();
+    }// </editor-fold>//GEN-END:initComponents
+
+    private void formWindowClosing(java.awt.event.WindowEvent evt) {//GEN-FIRST:event_formWindowClosing
+        // TODO add your handling code here:
+        if (!myPlayerInfo.isPlaying) {
+            int ret = JOptionPane.showConfirmDialog(this, "Do you really want's to quit?");
+//        System.out.println("ret " + ret);
+            if (ret == 0) {
+                myTimer.stop();
+                this.dispose();
+                myPlayerInfo.output.println("Exit");
+            }
+        }
+    }//GEN-LAST:event_formWindowClosing
+
+    public int stringToInt(String str) {
+        int ret = 0;
+        int sz = str.length();
+        for (int i = 0; i < sz; i++) {
+            ret = (ret * 10) + (str.charAt(i) - '0');
+            //System.out.println("---> " + (str.charAt(i) - '0'));
+        }
+        return ret;
+    }
+
+    /*
+    public void setGridSubmitOpIsSubmit(boolean flag) {
+        objectGridSubmit.opIsSubmit = true;
+    }
+
+    public boolean getGridSubmitMeIsSubmit() {
+        return objectGridSubmit.isSubmit;
+    }
+
+    public void setGridSubmitOpIsSubmitInGamePlay(boolean flag) {
+        objectGridSubmit.setGamePlayOpSubmit(flag);
+    }
+    */
+    
+
+    public void showSubmitGrid(int myMove) {
+        Dimension screenSize = Toolkit.getDefaultToolkit().getScreenSize();
+        int width = (int) screenSize.getWidth();
+        int height = (int) screenSize.getHeight();
+        objectPlayGround = new PlayGround(myPlayerInfo, playerID, HomePage.pile1, HomePage.pile2, myMove);
+        objectPlayGround.setDefaultCloseOperation(DO_NOTHING_ON_CLOSE);
+        objectPlayGround.setLocation((width - objectPlayGround.getWidth()) / 2, (2 * height / 3 - objectPlayGround.getHeight()) / 2);
+        objectPlayGround.setResizable(false);
+        objectPlayGround.setVisible(true);
+        System.out.println("thik ase to at ShowListForm, line 297");
+    }
+    
+    
+    public void setIsPlaying(boolean val){
+        myPlayerInfo.isPlaying=val;
+    }
+
+    private void playButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_playButtonActionPerformed
+        // TODO add your handling code here:
+//        System.out.println("*play event: " + evt + " *");
+        if (!myPlayerInfo.isPlaying) {
+            showListOfPlayer();
+            playcnt++;
+            int total = jTable1.getRowCount();
+            for (int i = 0; i < total; i++) {
+                if (validRows[i] == false) {
+                    break;
+                }
+                if (jTable1.isRowSelected(i) == false) {
+                    continue;
+                }
+                showListOfPlayer();
+                myPlayerInfo.opponent.playerName = (String) jTable1.getModel().getValueAt(i, 1);
+                myPlayerInfo.opponent.playerIpAddress = (String) jTable1.getModel().getValueAt(i, 2);
+                myPlayerInfo.opponent.playerPortAddress = stringToInt((String) jTable1.getModel().getValueAt(i, 1));
+
+                myPlayerInfo.output.println("PlayRequest");
+                myPlayerInfo.output.println(jTable1.getModel().getValueAt(i, 1));
+                myPlayerInfo.output.println(jTable1.getModel().getValueAt(i, 2));
+                myPlayerInfo.output.println(jTable1.getModel().getValueAt(i, 3));
+                break;
+            }
+        }
+//        System.out.println("total : " + total);
+        //showListOfPlayer();
+    }//GEN-LAST:event_playButtonActionPerformed
+
+    /**
+     * @param args the command line arguments
+     */
+    public static void main(String args[]) {
+        /* Set the Nimbus look and feel */
+        //<editor-fold defaultstate="collapsed" desc=" Look and feel setting code (optional) ">
+        /* If Nimbus (introduced in Java SE 6) is not available, stay with the default look and feel.
+         * For details see http://download.oracle.com/javase/tutorial/uiswing/lookandfeel/plaf.html 
+         */
+        try {
+            for (javax.swing.UIManager.LookAndFeelInfo info : javax.swing.UIManager.getInstalledLookAndFeels()) {
+                if ("Nimbus".equals(info.getName())) {
+                    javax.swing.UIManager.setLookAndFeel(info.getClassName());
+                    break;
+                }
+            }
+        } catch (ClassNotFoundException ex) {
+            java.util.logging.Logger.getLogger(ShowListFrom.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+        } catch (InstantiationException ex) {
+            java.util.logging.Logger.getLogger(ShowListFrom.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+        } catch (IllegalAccessException ex) {
+            java.util.logging.Logger.getLogger(ShowListFrom.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+        } catch (javax.swing.UnsupportedLookAndFeelException ex) {
+            java.util.logging.Logger.getLogger(ShowListFrom.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+        }
+        //</editor-fold>
+        //</editor-fold>
+
+        /* Create and display the form */
+        java.awt.EventQueue.invokeLater(new Runnable() {
+            @Override
+            public void run() {
+            }
+        });
+    }
+
+    // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JScrollPane jScrollPane2;
+    private javax.swing.JTabbedPane jTabbedPane1;
+    private javax.swing.JTable jTable1;
+    private javax.swing.JButton playButton;
+    // End of variables declaration//GEN-END:variables
+}
